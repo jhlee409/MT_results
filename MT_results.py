@@ -5,7 +5,7 @@ import firebase_admin
 from firebase_admin import credentials, storage
 
 # Set page to wide mode
-st.set_page_config(page_title="EGD 강의", layout="wide")
+st.set_page_config(page_title="MT_results")
 
 # Initialize Firebase only if it hasn't been initialized
 if not firebase_admin._apps:
@@ -24,11 +24,10 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
 # Title and Instructions
-st.title("동영상 업로드")
-st.write("Firebase Storage에 동영상을 업로드하세요.")
+st.title("Memory test 수행 동영상 업로드")
 
 # Input for name
-user_name = st.text_input("이름을 입력하세요:")
+user_name = st.text_input("이름을 입력하세요(반드시 F1아무개, R3홍길동 과 같은 형식으로 입력하세요.):")
 
 # File uploader
 uploaded_file = st.file_uploader("동영상(mp4, avi)을 선택하세요:", type=["mp4", "avi"])
