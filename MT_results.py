@@ -55,28 +55,26 @@ if is_valid:
     uploaded_file = st.file_uploader("업로드할 동영상(mp4, avi)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4", "avi"])
 
 if uploaded_file:
-    # Process upload when button is clicked
-    if st.button("업로드"):
-        try:
-            # Get current date
-            current_date = datetime.now().strftime("%Y-%m-%d")
+    try:
+        # Get current date
+        current_date = datetime.now().strftime("%Y-%m-%d")
 
-            # Generate file name
-            extension = os.path.splitext(uploaded_file.name)[1]  # Extract file extension
-            file_name = f"{position}_{user_name}{extension}"
+        # Generate file name
+        extension = os.path.splitext(uploaded_file.name)[1]  # Extract file extension
+        file_name = f"{position}_{user_name}{extension}"
 
-            # Firebase Storage upload
-            bucket = storage.bucket('amcgi-bulletin.appspot.com')
-            blob = bucket.blob(f"MT_results/{file_name}")
+        # Firebase Storage upload
+        bucket = storage.bucket('amcgi-bulletin.appspot.com')
+        blob = bucket.blob(f"MT_results/{file_name}")
 
-            # Upload file to Firebase Storage
-            blob.upload_from_file(uploaded_file, content_type=uploaded_file.type)
+        # Upload file to Firebase Storage
+        blob.upload_from_file(uploaded_file, content_type=uploaded_file.type)
 
-            # Success message
-            st.success(f"{file_name} 파일이 성공적으로 업로드되었습니다!")
-        except Exception as e:
-            # Error message
-            st.error(f"업로드 중 오류가 발생했습니다: {e}")
+        # Success message
+        st.success(f"{file_name} 파일이 성공적으로 업로드되었습니다!")
+    except Exception as e:
+        # Error message
+        st.error(f"업로드 중 오류가 발생했습니다: {e}")
 
 st.write("---")
 st.subheader("업로드된 파일 목록")
