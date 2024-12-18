@@ -54,16 +54,8 @@ if uploaded_file and user_name:
             # Upload file to Firebase Storage
             blob.upload_from_file(uploaded_file, content_type=uploaded_file.type)
 
-            # Generate download URL (valid for 3600 seconds = 1 hour)
-            download_url = blob.generate_signed_url(
-                version="v4",
-                expiration=3600,
-                method="GET"
-            )
-
-            # Success message with download link
+            # Success message
             st.success(f"{file_name} 파일이 성공적으로 업로드되었습니다!")
-            st.markdown(f"[여기를 클릭하여 파일 다운로드]({download_url})")
         except Exception as e:
             # Error message
             st.error(f"업로드 중 오류가 발생했습니다: {e}")
@@ -79,16 +71,6 @@ try:
     # Create a list of files
     for blob in blobs:
         if blob.name != "MT_results/":  # Skip the directory itself
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                st.write(f" {os.path.basename(blob.name)}")
-            with col2:
-                # Generate download URL
-                download_url = blob.generate_signed_url(
-                    version="v4",
-                    expiration=3600,
-                    method="GET"
-                )
-                st.markdown(f"[다운로드]({download_url})")
+            st.write(f" {os.path.basename(blob.name)}")
 except Exception as e:
     st.error(f"파일 목록을 불러오는 중 오류가 발생했습니다: {e}")
