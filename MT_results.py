@@ -49,10 +49,12 @@ elif not is_korean(user_name):
     st.error("한글 이름을 입력해 주세요")
     is_valid = False
 
-# File uploader
-uploaded_file = st.file_uploader("업로드할 동영상(mp4, avi)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4", "avi"])
+# File uploader - only show if inputs are valid
+uploaded_file = None
+if is_valid:
+    uploaded_file = st.file_uploader("업로드할 동영상(mp4, avi)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4", "avi"])
 
-if uploaded_file and user_name and is_valid:
+if uploaded_file:
     # Process upload when button is clicked
     if st.button("업로드"):
         try:
