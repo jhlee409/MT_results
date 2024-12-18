@@ -29,8 +29,14 @@ st.write("이 페이지는 Memory test 시험 동영상을 업로드하고 데�
 st.write("웹카메라로 암기하는 동영상을 만든 후 여기에 올려 주세요 단 동영상 크기는 100 MB 이하로 해주세요.")
 st.write("---")
 
-position = st.selectbox("Position", ["Select Position", "Staff", "F1", "F2", "R3", "Student"])  # 직책 선택 필드 추가
-user_name = st.text_input("예: 이진혁):")
+# Initialize session state
+if 'name_selected' not in st.session_state:
+    st.session_state.name_selected = False
+if 'show_file_list' not in st.session_state:
+    st.session_state.show_file_list = False
+
+position = st.selectbox("Position", ["Select Position", "Staff", "F1", "F2", "R3", "Student"])  
+user_name = st.text_input("예: 이진혁):", key="user_name")  
 st.write("---")
 
 def is_korean(text):
@@ -72,21 +78,24 @@ if uploaded_file:
 
         # Success message
         st.success(f"{file_name} 파일이 성공적으로 업로드되었습니다!")
+        st.session_state.show_file_list = True
     except Exception as e:
         # Error message
         st.error(f"업로드 중 오류가 발생했습니다: {e}")
 
-st.write("---")
-st.subheader("업로드된 파일 목록")
+# Only show file list after successful upload
+if st.session_state.show_file_list:
+    st.write("---")
+    st.subheader("업로드된 파일 목록")
 
-try:
-    # Get bucket and list files
-    bucket = storage.bucket('amcgi-bulletin.appspot.com')
-    blobs = bucket.list_blobs(prefix="MT_results/")
-    
-    # Create a list of files
-    for blob in blobs:
-        if blob.name != "MT_results/":  # Skip the directory itself
-            st.write(f" {os.path.basename(blob.name)}")
-except Exception as e:
-    st.error(f"파일 목록을 불러오는 중 오류가 발생했습니다: {e}")
+    try:
+        # Get bucket and list files
+        bucket = storage.bucket('amcgi-bulletin.appspot.com')
+        blobs = bucket.list_blobs(prefix="MT_results/")
+        
+        # Create a list of files
+        for blob in blobs:
+            if blob.name != "MT_results/":  # Skip the directory itself
+                st.write(f" {os.path.basename(blob.name)}")
+    except Exception as e:
+        st.error(f"파일 목록을 불러오는 중 오류가 발생했습니다: {e}")
