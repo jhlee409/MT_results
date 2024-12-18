@@ -33,10 +33,26 @@ position = st.selectbox("Position", ["Select Position", "Staff", "F1", "F2", "R3
 user_name = st.text_input("예: 이진혁):")
 st.write("---")
 
+def is_korean(text):
+    # 한글 유니코드 범위: AC00-D7A3 (가-힣)
+    return all('\uAC00' <= char <= '\uD7A3' for char in text if char.strip())
+
+# 입력값 검증
+is_valid = True
+if position == "Select Position" or not position:
+    st.error("position을 선택해 주세요")
+    is_valid = False
+if not user_name:
+    st.error("한글 이름을 입력해 주세요")
+    is_valid = False
+elif not is_korean(user_name):
+    st.error("한글 이름을 입력해 주세요")
+    is_valid = False
+
 # File uploader
 uploaded_file = st.file_uploader("업로드할 동영상(mp4, avi)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4", "avi"])
 
-if uploaded_file and user_name:
+if uploaded_file and user_name and is_valid:
     # Process upload when button is clicked
     if st.button("업로드"):
         try:
