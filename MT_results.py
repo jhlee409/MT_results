@@ -29,8 +29,8 @@ st.write("이 페이지는 Memory test 시험 동영상을 업로드하고 데�
 st.write("웹카메라로 암기하는 동영상을 만든 후 여기에 올려 주세요 단 동영상 크기는 100 MB 이하로 해주세요.")
 st.write("---")
 
-# Input for name
-user_name = st.text_input("이름을 입력하세요(반드시 F1아무개, R3홍길동 과 같은 형식으로 입력하세요.):")
+position = st.selectbox("Position", ["Select Position", "Staff", "F1", "F2", "R3", "Student"])  # 직책 선택 필드 추가
+user_name = st.text_input("예: 이진혁):")
 st.write("---")
 
 # File uploader
@@ -45,7 +45,7 @@ if uploaded_file and user_name:
 
             # Generate file name
             extension = os.path.splitext(uploaded_file.name)[1]  # Extract file extension
-            file_name = f"{user_name}_{current_date}{extension}"
+            file_name = f"{position}*{user_name}*{current_date}{extension}"
 
             # Firebase Storage upload
             bucket = storage.bucket('amcgi-bulletin.appspot.com')
