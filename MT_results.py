@@ -61,7 +61,7 @@ if uploaded_file and user_name:
             st.error(f"업로드 중 오류가 발생했습니다: {e}")
 
 st.write("---")
-st.header("업로드된 파일 목록")
+st.subheader("업로드된 파일 목록")
 
 try:
     # Get bucket and list files
