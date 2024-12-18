@@ -67,3 +67,28 @@ if uploaded_file and user_name:
         except Exception as e:
             # Error message
             st.error(f"업로드 중 오류가 발생했습니다: {e}")
+
+st.write("---")
+st.header("업로드된 파일 목록")
+
+try:
+    # Get bucket and list files
+    bucket = storage.bucket('amcgi-bulletin.appspot.com')
+    blobs = bucket.list_blobs(prefix="MT_results/")
+    
+    # Create a list of files
+    for blob in blobs:
+        if blob.name != "MT_results/":  # Skip the directory itself
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                st.write(f" {os.path.basename(blob.name)}")
+            with col2:
+                # Generate download URL
+                download_url = blob.generate_signed_url(
+                    version="v4",
+                    expiration=3600,
+                    method="GET"
+                )
+                st.markdown(f"[다운로드]({download_url})")
+except Exception as e:
+    st.error(f"파일 목록을 불러오는 중 오류가 발생했습니다: {e}")
