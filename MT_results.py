@@ -54,8 +54,16 @@ if uploaded_file and user_name:
             # Upload file to Firebase Storage
             blob.upload_from_file(uploaded_file, content_type=uploaded_file.type)
 
-            # Success message
+            # Generate download URL (valid for 3600 seconds = 1 hour)
+            download_url = blob.generate_signed_url(
+                version="v4",
+                expiration=3600,
+                method="GET"
+            )
+
+            # Success message with download link
             st.success(f"{file_name} 파일이 성공적으로 업로드되었습니다!")
+            st.markdown(f"[여기를 클릭하여 파일 다운로드]({download_url})")
         except Exception as e:
             # Error message
             st.error(f"업로드 중 오류가 발생했습니다: {e}")
