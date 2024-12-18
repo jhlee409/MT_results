@@ -35,7 +35,7 @@ if 'name_selected' not in st.session_state:
 if 'show_file_list' not in st.session_state:
     st.session_state.show_file_list = False
 
-position = st.selectbox("Position", ["Select Position", "Staff", "F1", "F2", "R3", "Student"])  
+position = st.selectbox("Select Position", ["", "Staff", "F1", "F2", "R3", "Student"])  
 user_name = st.text_input("예: 이진혁):", key="user_name")  
 st.write("---")
 
@@ -45,7 +45,7 @@ def is_korean(text):
 
 # 입력값 검증
 is_valid = True
-if position == "Select Position" or not position:
+if position == "" or not position:
     st.error("position을 선택해 주세요")
     is_valid = False
 if not user_name:
