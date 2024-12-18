@@ -45,7 +45,7 @@ if uploaded_file and user_name:
 
             # Generate file name
             extension = os.path.splitext(uploaded_file.name)[1]  # Extract file extension
-            file_name = f"{position}*{user_name}*{current_date}{extension}"
+            file_name = f"{position}_{user_name}_{current_date}{extension}"
 
             # Firebase Storage upload
             bucket = storage.bucket('amcgi-bulletin.appspot.com')
