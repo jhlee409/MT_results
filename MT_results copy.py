@@ -26,7 +26,7 @@ if not firebase_admin._apps:
 # Title and Instructions
 st.title("Memory test")
 st.write("이 페이지는 Memory test 필요 자료를 다운 받고, 암기 동영상을 업로드하는 웹페이지입니다.")
-st.write("검사과정설명 버튼을 눌러 암기할 검사과정 설명 문서를 다운받으세요.")
+st.write("검사과정설명 버튼을 눌러 암기할 검사과정 설명 문서를 다운받으세요..")
 st.write("충분하다고 판단되면 웹카메라로 암기하는 동영상을 만든 후 여기에 올려 주세요 단 동영상 형식은 mp4, 크기는 100 MB 이하로 해주세요.")
 st.write("---")
 
