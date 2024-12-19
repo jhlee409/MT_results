@@ -3,7 +3,6 @@ import os
 from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials, storage
-from moviepy.editor import VideoFileClip
 import tempfile
 
 # Set page to wide mode
@@ -84,7 +83,7 @@ st.write("---")
 # File uploader - only show if inputs are valid
 uploaded_file = None
 if is_valid:
-    uploaded_file = st.file_uploader("업로드할 암기 동영상(mp4, avi)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4", "avi"])
+    uploaded_file = st.file_uploader("업로드할 암기 동영상(mp4)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4"])
 
 if uploaded_file:
     try:
@@ -101,30 +100,15 @@ if uploaded_file:
             # Generate file names
             extension = os.path.splitext(uploaded_file.name)[1]  # Extract file extension
             video_file_name = f"{position}_{user_name}{extension}"
-            audio_file_name = f"{position}_{user_name}.wav"
-
-            # Extract audio
-            video_clip = VideoFileClip(temp_video_path)
-            audio_clip = video_clip.audio
-            temp_audio_path = os.path.join(temp_dir, "temp_audio.wav")
-            audio_clip.write_audiofile(temp_audio_path)
-            
-            # Close the clips
-            audio_clip.close()
-            video_clip.close()
 
             # Firebase Storage upload for video
             bucket = storage.bucket('amcgi-bulletin.appspot.com')
             video_blob = bucket.blob(f"MT_results/{video_file_name}")
             video_blob.upload_from_filename(temp_video_path, content_type=uploaded_file.type)
 
-            # Firebase Storage upload for audio
-            audio_blob = bucket.blob(f"MT_results/{audio_file_name}")
-            audio_blob.upload_from_filename(temp_audio_path, content_type='audio/wav')
-
-        # Success message
-        st.success(f"{video_file_name} 파일과 음성 파일이 성공적으로 업로드되었습니다!")
-        st.session_state.show_file_list = True
+            # Success message
+            st.success(f"{video_file_name} 파일이 성공적으로 업로드되었습니다!")
+            st.session_state.show_file_list = True
     except Exception as e:
         # Error message
         st.error(f"업로드 중 오류가 발생했습니다: {e}")
