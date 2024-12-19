@@ -73,7 +73,7 @@ if is_valid:
                 mime="application/msword",
                 on_click=on_download_click
             ):
-                st.success("문서가 성공적으로 다운로드되었습니다!")
+                st.success("문서를 다운로드할 폴더를 선택하세요.")
     else:
         st.error("검사과정설명 문서를 찾을 수 없습니다.")
 
