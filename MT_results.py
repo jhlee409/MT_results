@@ -35,6 +35,8 @@ if 'name_selected' not in st.session_state:
     st.session_state.name_selected = False
 if 'show_file_list' not in st.session_state:
     st.session_state.show_file_list = False
+if 'download_clicked' not in st.session_state:
+    st.session_state.download_clicked = False
 
 position = st.selectbox("직위를 선택해 주세요.", ["", "Staff", "F1", "F2", "R3", "Student"])  
 user_name = st.text_input("한글 이름을 입력해 주세요. (예: 이진혁):", key="user_name")  
@@ -43,6 +45,9 @@ st.write("---")
 def is_korean(text):
     # 한글 유니코드 범위: AC00-D7A3 (가-힣)
     return all('\uAC00' <= char <= '\uD7A3' for char in text if char.strip())
+
+def on_download_click():
+    st.session_state.download_clicked = True
 
 # 입력값 검증
 is_valid = True
@@ -61,15 +66,18 @@ if is_valid:
     doc_path = "EGD 시행 동작 순서 Bx 포함 2024.doc"
     if os.path.exists(doc_path):
         with open(doc_path, "rb") as file:
-            st.download_button(
+            if st.download_button(
                 label="검사과정설명 자료",
                 data=file,
                 file_name="EGD 시행 동작 순서 Bx 포함 2024.doc",
                 mime="application/msword",
-                on_click=lambda: st.success("문서가 성공적으로 다운로드되었습니다!")
-            )
+                on_click=on_download_click
+            ):
+                st.success("문서가 성공적으로 다운로드되었습니다!")
     else:
         st.error("검사과정설명 문서를 찾을 수 없습니다.")
+
+st.write("---")
 
 # File uploader - only show if inputs are valid
 uploaded_file = None
