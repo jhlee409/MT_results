@@ -24,9 +24,10 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
 # Title and Instructions
-st.title("Memory test 수행 동영상 업로드")
-st.write("이 페이지는 Memory test 시험 동영상을 업로드하고 데이터베이스에 저장하는 웹페이지입니다.")
-st.write("웹카메라로 암기하는 동영상을 만든 후 여기에 올려 주세요 단 동영상 크기는 100 MB 이하로 해주세요.")
+st.title("Memory test")
+st.write("이 페이지는 Memory test 필요 자료를 다운 받고, 암기 동영상을 업로드하는 웹페이지입니다.")
+st.write("검사과정설명 버튼을 눌러 암기할 검사과정 설명 문서를 다운받으세요..")
+st.write("충분하다고 판단되면 웹카메라로 암기하는 동영상을 만든 후 여기에 올려 주세요 단 동영상 형식은 mp4, 크기는 100 MB 이하로 해주세요.")
 st.write("---")
 
 # Initialize session state
@@ -58,7 +59,7 @@ elif not is_korean(user_name):
 # File uploader - only show if inputs are valid
 uploaded_file = None
 if is_valid:
-    uploaded_file = st.file_uploader("업로드할 동영상(mp4, avi)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4", "avi"])
+    uploaded_file = st.file_uploader("업로드할 암기 동영상(mp4, avi)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4", "avi"])
 
 if uploaded_file:
     try:
