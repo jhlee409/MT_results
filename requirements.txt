@@ -1,5 +1,3 @@
 streamlit
 firebase-admin
 python-dotenv
-pydub
-ffmpeg-python

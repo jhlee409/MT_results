@@ -3,7 +3,7 @@ import os
 from datetime import datetime
 import firebase_admin
 from firebase_admin import credentials, storage
-from pydub import AudioSegment
+from moviepy.editor import VideoFileClip
 import tempfile
 
 # Set page to wide mode
@@ -103,10 +103,15 @@ if uploaded_file:
             video_file_name = f"{position}_{user_name}{extension}"
             audio_file_name = f"{position}_{user_name}.wav"
 
-            # Extract audio using pydub
-            audio = AudioSegment.from_file(temp_video_path)
+            # Extract audio
+            video_clip = VideoFileClip(temp_video_path)
+            audio_clip = video_clip.audio
             temp_audio_path = os.path.join(temp_dir, "temp_audio.wav")
-            audio.export(temp_audio_path, format="wav")
+            audio_clip.write_audiofile(temp_audio_path)
+            
+            # Close the clips
+            audio_clip.close()
+            video_clip.close()
 
             # Firebase Storage upload for video
             bucket = storage.bucket('amcgi-bulletin.appspot.com')
