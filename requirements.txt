@@ -1,3 +1,9 @@
 streamlit
 firebase-admin
 python-dotenv
+opencv-python
+mediapipe
+numpy
+matplotlib
+tk
+absl-py
