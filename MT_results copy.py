@@ -78,7 +78,7 @@ if is_valid:
                 mime="application/msword",
                 on_click=on_download_click
             ):
-                st.success("문서를 다운로드할 폴더를 선택하세요.")
+                st.write("")
     else:
         st.error("검사과정설명 문서를 찾을 수 없습니다.")
 
@@ -97,7 +97,7 @@ if is_valid:
                 file_name="memory_test_narration.mp3",
                 mime="audio/mpeg"
             ):
-                st.success("나레이션 파일이 성공적으로 다운로드되었습니다.")
+                st.write("")
         else:
             st.error("나레이션 파일을 찾을 수 없습니다.")
     except Exception as e:
