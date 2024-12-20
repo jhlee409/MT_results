@@ -42,6 +42,7 @@ if 'show_file_list' not in st.session_state:
 if 'download_clicked' not in st.session_state:
     st.session_state.download_clicked = False
 
+st.subheader("로그인")
 position = st.selectbox("직위를 선택해 주세요.", ["", "Staff", "F1", "F2", "R3", "Student"])
 user_name = st.text_input("한글 이름을 입력하고 엔터를 쳐 주세요. (예: 이진혁):", key="user_name")
 st.write("---")
@@ -105,9 +106,32 @@ if is_valid:
 
 st.write("---")
 
+# Add narration download button
+if is_valid:
+    st.subheader("전문가 EGD 수행 해설 동영상 다운로드")
+    try:
+        bucket = storage.bucket('amcgi-bulletin.appspot.com')
+        demonstation_blob = bucket.blob('EGD_variation/B1.mp3')
+        if demonstration_blob.exists():
+            demonstation_url = demonstation_blob.generate_signed_url(expiration=timedelta(minutes=15))
+            if st.download_button(
+                label="EGD 해설 동영상 다운로드",
+                data=demonstration_blob.download_as_bytes(),
+                file_name="B1.mp3",
+                mime="audio/mpeg"
+            ):
+                st.write("")
+        else:
+            st.error("EGD 해설 동영상 파일을 찾을 수 없습니다.")
+    except Exception as e:
+        st.error(f"EGD 해설 동영상 파일 다운로드 중 오류가 발생했습니다: {e}")
+
+st.write("---")
+
 # File uploader - only show if inputs are valid
 uploaded_file = None
 if is_valid:
+    st.subheader("암기 영상 업로드")
     uploaded_file = st.file_uploader("업로드할 암기 동영상(mp4)을 선택하세요 (100 MB 이하로 해주세요.):", type=["mp4"])
 
 if uploaded_file:
