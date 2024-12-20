@@ -128,7 +128,7 @@ if uploaded_file:
 
             # Firebase Storage upload for video
             bucket = storage.bucket('amcgi-bulletin.appspot.com')
-            video_blob = bucket.blob(f"MT_results/{video_file_name}")
+            video_blob = bucket.blob(f"MT_results/MT_results/{video_file_name}")
             video_blob.upload_from_filename(temp_video_path, content_type=uploaded_file.type)
 
             # Success message
