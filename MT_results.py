@@ -117,8 +117,8 @@ if is_valid:
             if st.download_button(
                 label="EGD 해설 동영상 다운로드",
                 data=demonstration_blob.download_as_bytes(),
-                file_name="B1.mp3",
-                mime="audio/mpeg"
+                file_name="B1.mp4",
+                mime="video/mp4"
             ):
                 st.write("")
         else:
