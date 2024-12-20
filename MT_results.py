@@ -113,7 +113,7 @@ if is_valid:
         bucket = storage.bucket('amcgi-bulletin.appspot.com')
         demonstration_blob = bucket.blob('EGD_variation/B1.mp4')
         if demonstration_blob.exists():
-            demonstration_url = demonsration_blob.generate_signed_url(expiration=timedelta(minutes=15))
+            demonstration_url = demonstration_blob.generate_signed_url(expiration=timedelta(minutes=15))
             if st.download_button(
                 label="EGD 해설 동영상 다운로드",
                 data=demonstration_blob.download_as_bytes(),
