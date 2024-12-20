@@ -6,7 +6,7 @@ from firebase_admin import credentials, storage
 import tempfile
 
 # Set page to wide mode
-st.set_page_config(page_title="MT_results", layout="wide")
+st.set_page_config(page_title="MT_results")
 
 # Initialize Firebase only if it hasn't been initialized
 if not firebase_admin._apps:
@@ -59,7 +59,7 @@ if position == "" or not position:
     st.error("position을 선택해 주세요")
     is_valid = False
 if not user_name:
-    st.error("한글 이름을 입력해 주세요")
+    st.error("한글 이름을 입력하고 엔터를 쳐 주세요")
     is_valid = False
 elif not is_korean(user_name):
     st.error("한글 이름을 입력하고 엔터를 쳐 주세요.")
