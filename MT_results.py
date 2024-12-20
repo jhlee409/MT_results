@@ -62,7 +62,7 @@ if not user_name:
     st.error("한글 이름을 입력해 주세요")
     is_valid = False
 elif not is_korean(user_name):
-    st.error("한글 이름을 입력해 주세요")
+    st.error("한글 이름을 입력하고 엔터를 쳐 주세요.")
     is_valid = False
 
 # Add download button for EGD procedure document
