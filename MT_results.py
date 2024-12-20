@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import firebase_admin
 from firebase_admin import credentials, storage
 import tempfile
@@ -86,7 +86,7 @@ if is_valid:
         bucket = storage.bucket('amcgi-bulletin.appspot.com')
         narration_blob = bucket.blob('MT_results/memory test narration 13분.mp3')
         if narration_blob.exists():
-            narration_url = narration_blob.generate_signed_url(expiration=datetime.timedelta(minutes=15))
+            narration_url = narration_blob.generate_signed_url(expiration=timedelta(minutes=15))
             if st.download_button(
                 label="나레이션 파일 다운로드",
                 data=narration_blob.download_as_bytes(),
@@ -124,7 +124,7 @@ if uploaded_file:
 
             # Firebase Storage upload for video
             bucket = storage.bucket('amcgi-bulletin.appspot.com')
-            video_blob = bucket.blob(f"MT_results/MT_results/{video_file_name}")
+            video_blob = bucket.blob(f"MT_results/{video_file_name}")
             video_blob.upload_from_filename(temp_video_path, content_type=uploaded_file.type)
 
             # Success message
