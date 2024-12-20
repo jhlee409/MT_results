@@ -65,10 +65,11 @@ elif not is_korean(user_name):
 # Add download button for EGD procedure document
 if is_valid:
     doc_path = "EGD 시행 동작 순서 Bx 포함 2024.doc"
+    st.subheader("설명 문서 다운로드")
     if os.path.exists(doc_path):
         with open(doc_path, "rb") as file:
             if st.download_button(
-                label="검사과정설명 자료",
+                label="설명 문서 다운로드",
                 data=file,
                 file_name="EGD 시행 동작 순서 Bx 포함 2024.doc",
                 mime="application/msword",
@@ -81,14 +82,14 @@ if is_valid:
 # Add narration download button
 if is_valid:
     st.write("---")
-    st.subheader("나레이션 파일 다운로드")
+    st.subheader("나레이션 mp3 다운로드")
     try:
         bucket = storage.bucket('amcgi-bulletin.appspot.com')
         narration_blob = bucket.blob('MT_results/memory test narration 13분.mp3')
         if narration_blob.exists():
             narration_url = narration_blob.generate_signed_url(expiration=timedelta(minutes=15))
             if st.download_button(
-                label="나레이션 파일 다운로드",
+                label="나레이션 mp3 다운로드",
                 data=narration_blob.download_as_bytes(),
                 file_name="memory_test_narration.mp3",
                 mime="audio/mpeg"
