@@ -39,8 +39,8 @@ if 'show_file_list' not in st.session_state:
 if 'download_clicked' not in st.session_state:
     st.session_state.download_clicked = False
 
-position = st.selectbox("직위를 선택해 주세요.", ["", "Staff", "F1", "F2", "R3", "Student"])  
-user_name = st.text_input("한글 이름을 입력해 주세요. (예: 이진혁):", key="user_name")  
+position = st.selectbox("직위를 선택해 주세요.", ["", "Staff", "F1", "F2", "R3", "Student"])
+user_name = st.text_input("한글 이름을 입력해 주세요. (예: 이진혁):", key="user_name")
 st.write("---")
 
 def is_korean(text):
@@ -78,6 +78,27 @@ if is_valid:
     else:
         st.error("검사과정설명 문서를 찾을 수 없습니다.")
 
+# Add narration download button
+if is_valid:
+    st.write("---")
+    st.subheader("나레이션 파일 다운로드")
+    try:
+        bucket = storage.bucket('amcgi-bulletin.appspot.com')
+        narration_blob = bucket.blob('MT_results/memory test narration 13분.mp3')
+        if narration_blob.exists():
+            narration_url = narration_blob.generate_signed_url(expiration=datetime.timedelta(minutes=15))
+            if st.download_button(
+                label="나레이션 파일 다운로드",
+                data=narration_blob.download_as_bytes(),
+                file_name="memory_test_narration.mp3",
+                mime="audio/mpeg"
+            ):
+                st.success("나레이션 파일이 성공적으로 다운로드되었습니다.")
+        else:
+            st.error("나레이션 파일을 찾을 수 없습니다.")
+    except Exception as e:
+        st.error(f"나레이션 파일 다운로드 중 오류가 발생했습니다: {e}")
+
 st.write("---")
 
 # File uploader - only show if inputs are valid
@@ -103,7 +124,7 @@ if uploaded_file:
 
             # Firebase Storage upload for video
             bucket = storage.bucket('amcgi-bulletin.appspot.com')
-            video_blob = bucket.blob(f"MT_results/{video_file_name}")
+            video_blob = bucket.blob(f"MT_results/MT_results/{video_file_name}")
             video_blob.upload_from_filename(temp_video_path, content_type=uploaded_file.type)
 
             # Success message
