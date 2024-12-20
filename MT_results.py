@@ -106,7 +106,7 @@ if is_valid:
 
 st.write("---")
 
-# Add narration download button
+# Add mp4 download button
 if is_valid:
     st.subheader("전문가 EGD 수행 해설 동영상 다운로드")
     try:
