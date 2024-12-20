@@ -43,7 +43,7 @@ if 'download_clicked' not in st.session_state:
     st.session_state.download_clicked = False
 
 position = st.selectbox("직위를 선택해 주세요.", ["", "Staff", "F1", "F2", "R3", "Student"])
-user_name = st.text_input("한글 이름을 입력해 주세요. (예: 이진혁):", key="user_name")
+user_name = st.text_input("한글 이름을 입력하고 엔터를 쳐 주세요. (예: 이진혁):", key="user_name")
 st.write("---")
 
 def is_korean(text):

@@ -4,17 +4,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 import tkinter as tk
 from tkinter import filedialog
-import os
 import absl.logging
+
 
 absl.logging.set_verbosity(absl.logging.ERROR)
 
-# 사용자에게 파일 선택 창 표시 (다중 파일 선택 가능)
-def select_video_files():
+# 사용자에게 파일 선택 창 표시
+def select_video_file():
     root = tk.Tk()
     root.withdraw()
-    file_paths = filedialog.askopenfilenames(filetypes=[("Video files", "*.mp4;*.avi;*.mov")])
-    return file_paths
+    file_path = filedialog.askopenfilename(filetypes=[("Video files", "*.mp4;*.avi;*.mov")])
+    return file_path
 
 # 홍채의 상대적 위치를 기반으로 5x11 그리드 위치 계산
 def classify_eye_grid(horizontal_ratio, vertical_ratio):
@@ -28,7 +28,7 @@ def classify_eye_grid(horizontal_ratio, vertical_ratio):
     return row, col
 
 # 5x11 그리드 시각화 (눈 영역에 한정)
-def plot_eye_grid(activation_map, output_path):
+def plot_eye_grid(activation_map):
     fig, ax = plt.subplots(figsize=(22, 10))  # 가로 크기 증가
 
     # 데이터 정규화 및 비율 계산
@@ -65,8 +65,7 @@ def plot_eye_grid(activation_map, output_path):
     ax.invert_yaxis()  # y축 방향 반전
 
     plt.tight_layout()
-    plt.savefig(output_path)
-    plt.close()
+    plt.show()
 
 # 비디오 분석 (눈 영역 내 5x11 그리드 기반)
 def analyze_eye_gaze_with_grid(video_path):
@@ -132,18 +131,9 @@ def analyze_eye_gaze_with_grid(video_path):
 
 # 실행 코드
 if __name__ == "__main__":
-    video_paths = select_video_files()
-    if video_paths:
-        for video_path in video_paths:
-            activation_map = analyze_eye_gaze_with_grid(video_path)
-
-            # 결과 저장
-            output_folder = os.path.dirname(video_path)
-            output_filename = os.path.splitext(os.path.basename(video_path))[0] + ".pdf"
-            output_path = os.path.join(output_folder, output_filename)
-
-            plot_eye_grid(activation_map, output_path)
-            print(f"Analysis complete. Results saved to: {output_path}")
-
+    video_path = select_video_file()
+    if video_path:
+        activation_map = analyze_eye_gaze_with_grid(video_path)
+        plot_eye_grid(activation_map)
     else:
-        print("No video files selected.")
+        print("No video file selected.")
