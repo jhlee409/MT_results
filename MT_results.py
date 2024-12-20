@@ -6,7 +6,7 @@ from firebase_admin import credentials, storage
 import tempfile
 
 # Set page to wide mode
-st.set_page_config(page_title="MT_results")
+st.set_page_config(page_title="MT_results", layout="wide")
 
 # Initialize Firebase only if it hasn't been initialized
 if not firebase_admin._apps:
