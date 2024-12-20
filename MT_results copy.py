@@ -52,18 +52,6 @@ def is_korean(text):
 
 def on_download_click():
     st.session_state.download_clicked = True
-    try:
-        current_date = datetime.now().strftime("%Y%m%d")
-        log_file_name = f"{position}*{user_name}*{current_date}"
-
-        # Upload log file to Firebase Storage
-        bucket = storage.bucket('amcgi-bulletin.appspot.com')
-        log_blob = bucket.blob(f"MT_results/log_MT_download/{log_file_name}.txt")
-        log_blob.upload_from_string("Download log created", content_type="text/plain")
-
-        st.success("다운로드 기록이 성공적으로 저장되었습니다.")
-    except Exception as e:
-        st.error(f"다운로드 기록 저장 중 오류가 발생했습니다: {e}")
 
 # 입력값 검증
 is_valid = True
