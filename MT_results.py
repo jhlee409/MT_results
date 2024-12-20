@@ -111,7 +111,7 @@ if is_valid:
     st.subheader("전문가 EGD 수행 해설 동영상 다운로드")
     try:
         bucket = storage.bucket('amcgi-bulletin.appspot.com')
-        demonstation_blob = bucket.blob('EGD_variation/B1.mp3')
+        demonstration_blob = bucket.blob('EGD_variation/B1.mp3')
         if demonstration_blob.exists():
             demonstation_url = demonstation_blob.generate_signed_url(expiration=timedelta(minutes=15))
             if st.download_button(
